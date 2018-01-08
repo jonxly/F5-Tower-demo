@@ -68,7 +68,7 @@
   - name: create LC
     ec2_lc:
       name: "{{ LCname }}"
-      image_id: ami-900169ec  # pts to hackazon AMI
+      image_id: ami-900169ec  # my hackazon AMI
       instance_type: t2.micro
       key_name: "{{ sshkp }}"
       state: present
@@ -85,6 +85,7 @@
       max_size: 5
       min_size: 0
       desired_capacity: 1
+      notification_topic: "arn:aws:sns:ap-southeast-1:835302856190:JT-SNS-ASG"
       tags:
       - Name: "{{ pooltag }}"
         propagate_at_launch: yes
