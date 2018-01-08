@@ -47,4 +47,5 @@
   - set_fact:
       bip: "{{ bigip['ansible_facts']['cloudformation']['{{ stack }}']['stack_outputs']['Bigip1ExternalInterfacePrivateIp']}}"
     when: bip=="10.1.1.1"
+  - debug: msg="BIP = {{bip}}"
 
