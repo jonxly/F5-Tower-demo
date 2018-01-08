@@ -30,6 +30,7 @@
     F5_VALIDATE_CERTS: no
 
   tasks:
+  - debug: msg="BIP = {{bip}}"
   - name: deploy SD-iApp
     bigip_iapp_service:
       name: "{{ appsvcname }}"
