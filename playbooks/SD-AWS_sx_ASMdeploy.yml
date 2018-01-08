@@ -23,13 +23,24 @@
     F5_VALIDATE_CERTS: no
 
   tasks:
-  - name: provision ASM
-    bigip_provision:
-      module: asm
-      # level: nominal   # sthg wrong w minimum/minimal!
+#  - name: provision ASM
+#    bigip_provision:
+#      module: asm
+#      # state: absent
+#      level: minimum   # sthg wrong w minimum/minimal!
+#
+#  - name: reboot BIP
+#    bigip_command:
+#      commands:
+#      - save sys config
+#      - reboot
+#    ignore_errors: true
+#
+#  - name: Wait for reboot to complete
+#    pause:
+#      seconds: 180
 
   - name: deploy secpol
-    # deploy waap secpol
     bigip_asm_policy:
       name: HZ-WAAP-ASM
       file: "{{ asmxml }}"
@@ -42,11 +53,26 @@
 
   - name: add WAAP rule to hackazon_l7_policy
     bigip_policy_rule:
-       name: activate_waap_rule
-       policy: hackazon_l7_policy
-       actions:
-        - type: enable
-          asm_policy: HZ-WAAP-ASM
-       conditions:
-        - type: all_traffic
-       state: present
+      name: activate_waap_rule
+      policy: hackazon_l7_policy
+      actions:
+      - type: enable
+        asm_policy: HZ-WAAP-ASM
+      conditions:
+      - type: all_traffic
+      state: present
+
+  - name: attach l7_policy to VS
+    bigip_virtual_server:
+      name: "{{ VSname }}"
+      all_profiles:
+      - tcp
+      - http
+      - websecurity
+      all_policies:
+      - hackazon_l7_policy
+
+  - name: assign security logging profile to VS
+    bigip_command:
+      commands: 'modify ltm virtual {{ VSname }} security-log-profiles replace-all-with { Log\ all\ requests }'
+

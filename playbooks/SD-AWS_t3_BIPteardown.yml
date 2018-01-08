@@ -4,7 +4,7 @@
 # - pass in lh1 (SDmDC) or lh2 (Ansible) on CLI
 # - store AWS credentials (akey and skey) in ansible-vault
 #   eg. ansible-playbook xxx.yml --vault-id @.vault_pw -e @secure.yml
-# - takes abt 2min to complete
+# - takes abt 2.5min to complete
 
 - name: "Tear down BIP #t3"
   hosts: "{{ host }}"

@@ -67,23 +67,25 @@
       - http
       monitor_type: and_list
 
-#  # todo: auto-populate BIP private IP in VS dest
-#  - name: get facts
-#    ec2_instance_facts:
-#      filters:
-#        tags: "Name": "Big-IP: SDmDC"
-#    register: EC2facts
-#  - set_fact:
-#      bip_SG: "{{ EC2facts.network_interfaces.private_ip_address }}"
+  - name: get BIP private IP
+    ec2_instance_facts:
+    #  instance_ids:
+    #  - "i-0a08525a31f530da7"
+      filters:
+        "tag:Name": "Big-IP: {{ stack }}"
+    register: bipfacts
+  - set_fact:
+      bip_IP: "{{ bipfacts.instances[0].private_ip_address }}"
+  #- debug: msg="{{ bip_IP }}"
+
 
   - name: create VS
     bigip_virtual_server:
       name: "{{ VSname }}"
-      destination: "{{ VSdest }}"
+      destination: "{{ bip_IP }}"
       port: 80
       snat: Automap
       pool: "{{ poolname }}"
       all_profiles:
       - /Common/tcp
       - /Common/http
-
