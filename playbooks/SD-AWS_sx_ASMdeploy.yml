@@ -12,9 +12,6 @@
   gather_facts: false
   connection: local
 
-#  vars:
-#    asmxml: ../files/hackazon_waap_policy.xml
-
   environment:
     F5_SERVER: "{{ bip }}"
     F5_SERVER_PORT: 8443
@@ -23,23 +20,6 @@
     F5_VALIDATE_CERTS: no
 
   tasks:
-#  - name: provision ASM
-#    bigip_provision:
-#      module: asm
-#      # state: absent
-#      level: minimum   # sthg wrong w minimum/minimal!
-#
-#  - name: reboot BIP
-#    bigip_command:
-#      commands:
-#      - save sys config
-#      - reboot
-#    ignore_errors: true
-#
-#  - name: Wait for reboot to complete
-#    pause:
-#      seconds: 180
-
   - name: deploy secpol
     bigip_asm_policy:
       name: HZ-WAAP-ASM
@@ -76,3 +56,19 @@
     bigip_command:
       commands: 'modify ltm virtual {{ VSname }} security-log-profiles replace-all-with { Log\ all\ requests }'
 
+#  - name: provision ASM
+#    bigip_provision:
+#      module: asm
+#      # state: absent
+#      level: minimum   # sthg wrong w minimum/minimal!
+#
+#  - name: reboot BIP
+#    bigip_command:
+#      commands:
+#      - save sys config
+#      - reboot
+#    ignore_errors: true
+#
+#  - name: Wait for reboot to complete
+#    pause:
+#      seconds: 180
