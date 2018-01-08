@@ -10,7 +10,7 @@
 #   - AWS credentials must be defined and populated (akey and skey) eg. in ansible-vault
 #
 
-- name: "Launch AWS single-NIC BIGIP #s1"
+- name: "Launch AWS BIGIP #s1"
   hosts: "{{ host }}"
   gather_facts: false
   connection: local
@@ -35,7 +35,7 @@
       template: "../templates/f5-SD-deploy-bip_v1c.template"
       template_parameters:
         Vpc: "{{ vpc }}"
-        EIP: "{{ bip }}"
+        EIP: "{{ ebip }}"
         licenseKey1: "{{ biplic }}"  # put in new eval best lic
         sshKey: "{{ sshkp }}"        # def=SDmDC-KP
         subnet1Az1: "{{ subnet }}"   # look to make this dynamic
