@@ -23,7 +23,7 @@
 
   tasks:
   - name: del ASG
-    # terminating e ASG will term all e EC2s, takes a while
+    # terminating e ASG will term all e exist9 EC2s, takes a while
     ec2_asg:
       name: "{{ ASGname }}"
       launch_config_name: "{{ LCname }}"

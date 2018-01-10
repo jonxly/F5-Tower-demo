@@ -1,10 +1,9 @@
 # [dec17] deploy single-NIC BIP on existing VPC, #s1
 # notes:
 # - global vars r stored in e ./inventory/host_vars which is ref fr e hosts file
-# - pass in lh1 (SDmDC) or lh2 (Ansible) on CLI
-# - can ssh after 1130min on T2.large, UI up n online after ~14min
 # - eg. ansible-playbook SDmDC/SD-AWS_s1_BIPdeploy.yml --vault-id @.vault_pw -e @secure.yml -vvv -e "host=lh1"
 # - vars: stack: vpc: subnet: sshkp: biplic:
+# - static public and private IPs are defined in vars file. latter is primarily for Tower
 # - prereqs:
 #   - VPC setup with SDmDC prefix and public subnet where EC2s will be deployed
 #   - AWS credentials must be defined and populated (akey and skey) eg. in ansible-vault
@@ -32,10 +31,12 @@
       stack_name: "{{ stack }}"
       state: "present"
       disable_rollback: true
-      template: "../templates/f5-SD-deploy-bip_v1c.template"
+      template: "../templates/f5-SD-deploy-bip_v1d.template"
       template_parameters:
         Vpc: "{{ vpc }}"
         EIP: "{{ ebip }}"
+        priIP: "{{ priIP }}"
+        TowerSG: "{{ towersg }}"
         licenseKey1: "{{ biplic }}"  # put in new eval best lic
         sshKey: "{{ sshkp }}"        # def=SDmDC-KP
         subnet1Az1: "{{ subnet }}"   # look to make this dynamic

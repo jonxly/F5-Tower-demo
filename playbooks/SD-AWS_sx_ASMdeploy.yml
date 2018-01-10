@@ -54,8 +54,9 @@
 
   - name: assign security logging profile to VS
     bigip_command:
-      commands: 'modify ltm virtual {{ VSname }} security-log-profiles replace-all-with { Log\ all\ requests }'
+      commands: 'modify ltm virtual {{ VSname }} security-log-profiles replace-all-with { Log\ illegal\ requests }'
 
+## auto-provisioned in CFT to speed up demo runtime
 #  - name: provision ASM
 #    bigip_provision:
 #      module: asm
