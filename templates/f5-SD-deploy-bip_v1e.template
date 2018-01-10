@@ -1039,7 +1039,7 @@
     "GroupDescription": "Public or External interface rules, including BIG-IP mgmt",
     "SecurityGroupIngress": [
      {
-      "CidrIp": { "Ref": "TowerSG" },
+      "SourceSecurityGroupId": { "Ref": "TowerSG" },
       "FromPort": "0",
       "IpProtocol": "tcp",
       "ToPort": "65535"
