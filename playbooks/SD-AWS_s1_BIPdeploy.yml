@@ -31,7 +31,7 @@
       stack_name: "{{ stack }}"
       state: "present"
       disable_rollback: true
-      template: "../templates/f5-SD-deploy-bip_v1d.template"
+      template: "../templates/f5-SD-deploy-bip_v1e.template"
       template_parameters:
         Vpc: "{{ vpc }}"
         EIP: "{{ ebip }}"
