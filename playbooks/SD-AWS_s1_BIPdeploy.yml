@@ -31,14 +31,15 @@
       stack_name: "{{ stack }}"
       state: "present"
       disable_rollback: true
-      template: "../templates/f5-SD-deploy-bip_v1e.template"
+      template: "../templates/f5-SD-deploy-bip_v1g.template"
       template_parameters:
         Vpc: "{{ vpc }}"
         EIP: "{{ ebip }}"
         priIP: "{{ priIP }}"
         TowerSG: "{{ towersg }}"
+        BastionSG: "{{ bastionsg }}"
         licenseKey1: "{{ biplic }}"  # put in new eval best lic
-        sshKey: "{{ sshkp }}"        # def=SDmDC-KP
+        sshKey: "{{ sshkp }}"
         subnet1Az1: "{{ subnet }}"   # look to make this dynamic
 
 #  - name: get facts
