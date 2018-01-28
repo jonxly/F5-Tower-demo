@@ -20,6 +20,10 @@
 #    sshkp: SDmDC-KP
 #    subnet: "subnet-f5f37ebc" # pub subnet in VPC, SDmDC-pub-subnet
 #    pooltag: SD-HZ
+#    hz-ami: ami-e9dfa495      # my hackazon AMI, old AWS acct: ami-900169ec
+#    SNS-slack: "arn:aws:sns:ap-southeast-1:311907896382:JT-SNS-ASG"
+#               # "arn:aws:sns:ap-southeast-1:835302856190:JT-SNS-ASG"
+
 
   environment:
     AWS_ACCESS_KEY: "{{ akey }}"
@@ -45,13 +49,12 @@
           from_port: 80
           to_port: 80
           group_id: "{{ bip_SG }}"
-        ## rm for lh1
-        #- proto: tcp
-        #  ports:
-        #  - 22
-        #  group_name:
-        #  - JT-secgrp-tower
-        #  - JT-secgrp-bastion
+        - proto: tcp
+          ports:
+          - 22
+          group_name:
+          - JT-SG-tower
+          - JT-SG-bastion
       tags:
         Name: "{{ secgrp }}"
 
@@ -68,7 +71,7 @@
   - name: create LC
     ec2_lc:
       name: "{{ LCname }}"
-      image_id: ami-900169ec  # my hackazon AMI
+      image_id: "{{ hz_ami }}"
       instance_type: t2.micro
       key_name: "{{ sshkp }}"
       state: present
@@ -82,10 +85,10 @@
       vpc_zone_identifier: "{{ subnet }}"
       default_cooldown: 180
       health_check_period: 180
-      max_size: 5
+      max_size: 7
       min_size: 0
       desired_capacity: 1
-      notification_topic: "arn:aws:sns:ap-southeast-1:835302856190:JT-SNS-ASG"
+      notification_topic: "{{ SNS_slack }}"
       tags:
       - Name: "{{ pooltag }}"
         propagate_at_launch: yes

@@ -68,10 +68,9 @@
 
   - name: get BIP private IP
     ec2_instance_facts:
-    #  instance_ids:
-    #  - "i-0a08525a31f530da7"
       filters:
-        "tag:Name": "Big-IP: {{ stack }}"
+        "tag:Name": "JT-BIP: {{ stack }}"
+
     register: bipfacts
   - set_fact:
       bip_IP: "{{ bipfacts.instances[0].private_ip_address }}"
