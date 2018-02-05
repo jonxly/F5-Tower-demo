@@ -42,7 +42,7 @@
       - type: all_traffic
       state: present
 
-  - name: attach l7_policy to VS
+  - name: attach L7_policy to VS
     bigip_virtual_server:
       name: "{{ VSname }}"
       all_profiles:
@@ -52,9 +52,15 @@
       all_policies:
       - hackazon_l7_policy
 
+  - name: create security logging profile
+    bigip_command:
+      commands: 'create security log profile hz_log_profile application add { app { filter add { request-type { values add { illegal } } search-all {} } format { field-delimiter \"\#\" fields { ip_client geo_location ip_address_intelligence src_port dest_ip dest_port protocol method uri x_forwarded_for_header_value request_status support_id session_id username violations violation_rating attack_type query_string policy_name sig_ids sig_names sig_set_names severity request } } local-storage disabled logic-operation and remote-storage remote servers add { {{ elk_host }}:5000 {} } } }'
+    ignore_errors: no
+
   - name: assign security logging profile to VS
     bigip_command:
-      commands: 'modify ltm virtual {{ VSname }} security-log-profiles replace-all-with { Log\ illegal\ requests }'
+      commands: 'modify ltm virtual {{ VSname }} security-log-profiles replace-all-with { hz_log_profile Log\ illegal\ requests }'
+
 
 ## auto-provisioned in CFT to speed up demo runtime
 #  - name: provision ASM

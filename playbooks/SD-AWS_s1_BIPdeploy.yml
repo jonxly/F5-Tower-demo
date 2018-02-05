@@ -36,11 +36,19 @@
         Vpc: "{{ vpc }}"
         EIP: "{{ ebip }}"
         priIP: "{{ priIP }}"
+        BipSG: "{{ bipsg }}"
         TowerSG: "{{ towersg }}"
         BastionSG: "{{ bastionsg }}"
         licenseKey1: "{{ biplic }}"  # put in new eval best lic
         sshKey: "{{ sshkp }}"
         subnet1Az1: "{{ subnet }}"   # look to make this dynamic
+
+  # change BIP pw (todo)
+  #- expect:
+  #  command: ssh -i <bigip_cert>.pem admin@<bigip_ip> modify auth password admin ; save sys config
+  #  responses:
+  #    (?i)password: "newPassword"
+  #  echo: yes
 
 #  - name: get facts
 #    cloudformation_facts:

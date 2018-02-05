@@ -30,6 +30,10 @@
       name: "{{ VSname }}"
       state: absent
 
+  - name: del seclogging profile
+    bigip_command:
+      commands: 'delete security log profile hz_log_profile'
+
   - name: del pool
     bigip_pool:
       name: "{{ poolname }}"
