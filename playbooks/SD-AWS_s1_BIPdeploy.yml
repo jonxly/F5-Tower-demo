@@ -31,7 +31,7 @@
       stack_name: "{{ stack }}"
       state: "present"
       disable_rollback: true
-      template: "../templates/f5-SD-deploy-bip_v2a.template"
+      template: "../templates/f5-SD-deploy-bip_v2b.template"
       template_parameters:
         Vpc: "{{ vpc }}"
         EIP: "{{ ebip }}"
@@ -41,6 +41,7 @@
         BastionSG: "{{ bastionsg }}"
         licenseKey1: "{{ biplic }}"  # put in new eval best lic
         sshKey: "{{ sshkp }}"
+        bipPass: "{{ bippass }}"
         subnet1Az1: "{{ subnet }}"   # look to make this dynamic
 
   # change BIP pw (todo)
@@ -57,4 +58,3 @@
 #  - set_fact:
 #      bip: "{{ bigip['ansible_facts']['cloudformation']['JT-ANST']['stack_outputs']['Bigip1ExternalInterfacePrivateIp']}}"
 #    when: bip=="10.1.1.1"
-
