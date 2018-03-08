@@ -69,7 +69,7 @@
   - name: get BIP private IP
     ec2_instance_facts:
       filters:
-        "tag:Name": "JT-BIP: {{ stack }}"
+        "tag:Name": "{{ stack }}-BigIP"
 
     register: bipfacts
   - set_fact:

@@ -330,12 +330,6 @@
      "AvailabilityZone"
     ]
    }
-  },
-  "bigipExternalSecurityGroup": {
-   "Description": "Public or External Security Group",
-   "Value": {
-    "Ref": "bigipExternalSecurityGroup"
-   }
   }
  },
  "Parameters": {
@@ -347,8 +341,8 @@
   "BipSG": { "ConstraintDescription": "Security Group ID for BIP", "Type": "AWS::EC2::SecurityGroup::Id" },
   "TowerSG": { "ConstraintDescription": "Security Group ID for Tower", "Type": "AWS::EC2::SecurityGroup::Id" },
   "BastionSG": { "ConstraintDescription": "Security Group ID for Bastion", "Type": "AWS::EC2::SecurityGroup::Id" },
-  "priIP": { "AllowedValues": "[10.5.10.240, 10.6.10.240]", "ConstraintDescription": "Static private IP within your subnet for BIP.", "Default": "10.5.10.240", "Type": "String" },
-
+  "priIP": { "AllowedValues": ["10.5.10.240", "10.6.10.240"], "ConstraintDescription": "Static private IP within your subnet for BIP.", "Default": "10.5.10.240", "Type": "String" },
+  "bipPass": { "Description": "BIG-IP initial password", "Type": "String" },
   "allowUsageAnalytics": {
    "AllowedValues": [
     "Yes",
@@ -584,6 +578,8 @@
              },
              "--dns ${NAME_SERVER}",
              "--module ltm:nominal",
+             "--module asm:minimum",
+             "--module gtm:minimum",
              "--license ",
              {
               "Ref": "licenseKey1"
@@ -710,7 +706,7 @@
            "date\n",
            "### START CUSTOM CONFIGURTION\n",
            "tmsh modify sys http auth-pam-idle-timeout 9999999\n",
-           "tmsh modify sys global-settings { gui-security-banner enabled gui-security-banner-text ''ASEAN MCAS. RESTRICTED ACCESS!'' }\n",
+           "tmsh modify sys global-settings { gui-security-banner enabled gui-security-banner-text 'ASEAN MCAS demo. RESTRICTED ACCESS!' }\n",
            "tmsh modify auth user admin password ", { "Ref": "bipPass" }, "\n",
            "### END CUSTOM CONFIGURATION"
           ]
