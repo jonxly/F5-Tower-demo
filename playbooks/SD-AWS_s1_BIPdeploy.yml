@@ -4,6 +4,9 @@
 # - eg. ansible-playbook SDmDC/SD-AWS_s1_BIPdeploy.yml --vault-id @.vault_pw -e @secure.yml -vvv -e "host=lh1"
 # - vars: stack: vpc: subnet: sshkp: biplic:
 # - static public and private IPs are defined in vars file. latter is primarily for Tower
+# - tim9: 3.5min CFT status complete
+#         8.5min can ssh on T2.large > 10.45min TMUI appears > 15-17min online
+#         check /var/log/onboard.log for "info: [pid: 10907] [lib/util.js] Onboard finished."
 # - prereqs:
 #   - VPC setup with SDmDC prefix and public subnet where EC2s will be deployed
 #   - AWS credentials must be defined and populated (akey and skey) eg. in ansible-vault
@@ -31,7 +34,7 @@
       stack_name: "{{ stack }}"
       state: "present"
       disable_rollback: true
-      template: "../templates/f5-SD-deploy-bip_v2b.template"
+      template: "../templates/f5-MCAS-deploy-bip_v3a.template"
       template_parameters:
         Vpc: "{{ vpc }}"
         EIP: "{{ ebip }}"
