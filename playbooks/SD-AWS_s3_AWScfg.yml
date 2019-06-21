@@ -1,4 +1,5 @@
 ---
+# [jun19] modify slightly
 # [dec17] push config to AWS #s3
 # Notes:
 # - global vars r stored in e ./inventory/host_vars which is ref fr e hosts file
