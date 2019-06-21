@@ -1,4 +1,5 @@
 ---
+# [jun19] add Analytics profiles
 # [dec17] push config to BIGIP #s2
 # Notes:
 # - global vars r stored in e ./inventory/host_vars which is ref fr e hosts file
@@ -86,3 +87,5 @@
       all_profiles:
       - /Common/tcp
       - /Common/http
+      - /Common/analytics
+      - /Common/tcp-analytics
